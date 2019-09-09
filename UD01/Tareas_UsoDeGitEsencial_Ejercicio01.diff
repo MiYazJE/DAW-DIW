@@ -1,0 +1,7 @@
+diff --git a/tmp/diferente.txt b/tmp/diferente.txt
+index 1ff9e50..328bb3e 100644
+--- a/tmp/diferente.txt
++++ b/tmp/diferente.txt
+@@ -1 +1,2 @@
+ "Esto en otro diferente" 
++"cambio realizado" 
