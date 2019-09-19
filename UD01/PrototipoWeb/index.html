@@ -3,72 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>INICIO</title>
+
+    <style>
+        .caja-logo img {
+            width: 10%;
+        }
+        header {
+            background-color: #826AEB;
+        }
+        section {
+            background-color: #4DD0FF;
+        }
+        footer {
+            background-color: #AEEBC0;
+        }
+    </style>
+
 </head>
 <body>
+
+    <!-- 
+        Paleta de colores 
+        1- #826AEB
+        2- #4DD0FF
+        3- #AEEBC0
+    -->
     
     <header>
-        <img src="img/logotipo.jpg" alt="Logotipo de la web">
-        <h1>Steam Keys</h1>
-
-        <form action="" class="buscarJuego">
-            <input type="text" placeholder="Buscar un juego">
-            <input type="submit" value="Buscar">
-        </form>
-
-        <form action="" class="iniciarSesion">
-            <input type="text" placeholder="Introduce tu usuario...">
-            <input type="password">
-            <input type="submit" value="Iniciar Sesion">
-            <button>Registrarse</button>
-        </form>
-
+        <div class="caja-logo">
+            <img src="img/logoTemporal.jpg" alt="Logotipo de la web pintorrea">
+        </div>
         <nav>
-            <ul>
-                <li><a href="#">Noticias</a></li>
-                <li><a href="#">Contacto</a></li>
-                <li><a href="#">Cuestionario</a></li>
-                <li><a href="#">Carrito</a></li>
-            </ul>
+            <div class="menuNavegacion">
+                <div>
+                    <a href="#">RANKING</a>
+                    <a href="#">USUARIOS</a>
+                </div>
+                <div>
+                    <div class="cajaIniciaSesion">
+                        <img src="img/usuario.png" alt="icono iniciar sesion">
+                        <a href="#">Inicia Sesión</a>
+                    </div>
+                    <div class="cajaRegistrate">
+                        <img src="img/usuario.png" alt="icono registrarse">
+                        <a href="#">Registrate</a>
+                    </div>
+                </div>
+            </div>
         </nav>
     </header>
 
     <section>
-        <div class="juegosDestacados">
-            <h2>Juegos destacados</h2>
-            <ul>
-                <li><a href="https://store.steampowered.com/app/289070/Sid_Meiers_Civilization_VI/">Civilization VI</a></li>
-                <li><a href="https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/">Rainbow Six Siege</a></li>
-                <li><a href="https://store.steampowered.com/app/107410/Arma_3/">Arma 3</a></li>
-                <li><a href="https://store.steampowered.com/app/872790/Football_Manager_2019/">Football Manager 2019</a></li>
-            </ul>
-        </div>
-
-        <div class="masVendidos">
-            <h2>Los mas vendidos</h2>
-            <ul>
-                <li><a href="https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/">Counter Strike Global Offensive</a></li>
-                <li><a href="https://store.steampowered.com/app/813780/Age_of_Empires_II_Definitive_Edition/">Age of Empires II: Definitive Edition</a></li>
-                <li><a href="https://store.steampowered.com/app/779340/Total_War_THREE_KINGDOMS/">Total War: THREE KINGDOMS</a></li>
-                <li><a href="https://store.steampowered.com/app/582660/Black_Desert_Online/">Black Desert Online</a></li>
-            </ul>
+        <div class="contenedorPrincipal"> 
+            <article>
+                <div class="contenedorExplicacion">
+                    <h1>Que es Pintorrea?</h1>
+                    <p>
+                        Pintorrea es una web para dibujar en la que puedes compites contra otros 
+                        jugadores. Un jugador intentara dibujar algo lo mas parecido al tema
+                        que la web le proponga y los demas deberan intentar adivinar lo que esta 
+                        dibujando.
+                    </p>
+                </div>
+                <div class="contenedorEmpezar">
+                    <h1>Empezar</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla ipsum temporibus dolore explicabo ex cum quidem quibusdam, veniam rem molestiae consectetur, excepturi repellat labore mollitia, culpa dicta eius architecto earum.
+                    </p>
+                    <button><a href="#"></a>Registrate</button>
+                </div>
+            </article>
         </div>
     </section>
 
     <footer>
-        <div class="footer-info">
-            <ul>
-                <li><a href="#">Quienes Somos?</a></li>
-                <li><a href="#">Atención al cliente</a></li>
-            </ul>
-            <ul>
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Twiter</a></li>
-                <li><a href="#">Youtube</a></li>
-            </ul>
+        <div class="contenedorSoporte">
+            <a href="#">Soporte</a>
+            <a href="#">Contacto</a>
+            <a href="#">Faq</a>
         </div>
-
-        <div class="footerDerechos">
-            <p>© 2019 steamkeys.com. Todos los Derechos Reservados.</p>
+        <span>&#9400;Derechos reservados 2019</span>
+        <div class="contenedorRedesSociales">
+            <h3>Redes Sociales</h3>
+            <img src="img/facebook.png" alt="iconoFaceBook">
+            <img src="img/twitter.png" alt="iconoTwitter">
+            <img src="img/google-plus.png" alt="iconoGooglePlus">
         </div>
     </footer>
 
