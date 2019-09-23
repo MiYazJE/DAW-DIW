@@ -1,0 +1,21 @@
+.caja-logo img {
+    width: 10%;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+}
+
+.menu {
+    margin-top: 1em;
+    flex-flow: row;
+    width: 100%;
+}
+
+.menu a {
+    display: inline;
+    font-size: 15px;
+    padding: 0.5em;
+}
+

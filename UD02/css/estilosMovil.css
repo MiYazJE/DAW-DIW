@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.caja-logo img {
+    width: 30%;
+}
+
+header {
+    background-color: #826AEB;
+    padding: 1em;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center; 
+}
+
+.caja-logo {
+    display: inherit;
+    justify-content: center; 
+    margin-bottom: 1em;
+}
+
+nav {
+    width: 100%;
+}
+
+.menu {
+    list-style-type: none;
+    display: inherit;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 50px;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    padding: 0.3em 0 0.3em 0;
+}
+
+.menu li {
+    margin: 0.5em;
+}
+
+.menu a:hover {
+    background-color: #9F89FF;
+}
+
+section {
+    background-color: #4DD0FF;
+}
+
+footer {
+    background-color: #AEEBC0;
+}
