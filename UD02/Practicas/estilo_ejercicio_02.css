@@ -7,25 +7,52 @@ header h1 {
 }
 
 .navegacion a {
+    display: block;
     text-decoration: none;
     color: black;
 }
 
 ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center; 
-    
 }
 
 ul li {
     list-style-type: none;
-    margin: 50px;
-    height: 100px;
+    width: 150px;
+    margin: 5%;
 }
+
+
+/* 
+            ****************
+            *    ICONS     *
+            ****************
+*/
 
 a[rel='next']:before {
     content: url('icons/mas.png');
+}
+
+a[rel='tag']:before {
+    content: url('icons/shop.png');
+}
+
+a[rel='bookmark']:before {
+    content: url('icons/star.png');
+}
+
+a[rel='help']:before {
+    content: url('icons/pdf.png');
+}
+
+a[rel='search']:before {
+    content: url('icons/file.png');
+}
+
+a[rel='nofollow']:before {
+    content: url('icons/security.png');
 }
