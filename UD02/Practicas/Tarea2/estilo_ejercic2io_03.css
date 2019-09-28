@@ -1,0 +1,28 @@
+:root {
+    --textoPares: ' Satán !';
+    --textoImpares: 'Alabado sea el Monstruo Espaguetti Volador ';
+}
+
+h2:nth-of-type(1) {
+    color: red;
+}
+
+h2:nth-of-type(2)::first-letter {
+    color: red;
+}
+
+li {
+    list-style-type: none;
+}
+
+li:nth-child(3) {
+    color: green;
+}
+
+li:nth-child(odd):hover:before {
+    content: var(--textoPares);
+}
+
+li:nth-child(even):hover:after {
+    content: var(--textoImpares);
+}
