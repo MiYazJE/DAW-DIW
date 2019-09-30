@@ -1,0 +1,51 @@
+:target {
+    background-color: blue !important;
+    color: white;
+}
+
+div {
+    margin: 1em 0;
+}
+
+#nombre {
+    background-color: orange;
+}
+
+#nombre:invalid {
+    background-color: red; 
+}
+
+#profesion {
+    font-family: "@import url('https://fonts.googleapis.com/css?family=Grenze&display=swap')";
+    border-radius: 10px;
+    padding: 3px;
+    background-color: lightgray;
+}
+
+#puntosCordura {
+    background-color: orange;
+}
+
+#puntosCordura:out-of-range {
+    background-color: red; 
+}
+
+#dificultad:checked::after {
+    background-image: url(cthulhu.svg);
+    background-size: 50px 50px;
+    display: inline-block;
+    width: 50px; 
+    height: 50px;
+    content:"";
+    margin-left: 3em;
+}
+
+input[value="Crear Personaje"] {
+    text-transform: uppercase;
+    border: none;
+    box-shadow: 8px 10px 15px -6px rgba(0,0,0,0.29);
+    border-radius: 10px;
+    padding: 5px;
+    background-color: orange;
+    cursor: pointer;
+}
