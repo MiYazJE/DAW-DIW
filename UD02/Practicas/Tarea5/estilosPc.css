@@ -1,0 +1,79 @@
+body {
+    font-family: 'Amatic SC';
+    font-size: 130%;
+}
+
+header {
+    background-color: lightgray;
+    padding: 1em 0;
+    overflow: hidden;
+}
+
+header a {
+    text-decoration: none;
+    color: black;
+}
+
+.logo {
+    font-size: 25px;
+    margin: 1em;
+    font-weight: bold;
+}
+
+.header-right {
+    float: right;
+    padding-bottom: 1em;
+}
+
+.header-right ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    margin-top: 2em;
+}
+
+.menu-it {
+    display: inline-block;
+    margin: 0 1em;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.menu-it a {
+    color: #33AE11;
+    width: 100%;
+}
+
+.menu-it:hover {
+    background-color: #BDC3BB;
+}
+
+article {
+    margin-left: 3%;
+}
+
+.modulo {
+    display: inline-block;
+    width: 25%;
+}
+
+.modulo h2 {
+    text-align: center;
+}
+
+.modulo:nth-child(even) {
+    background-color: lightgray;
+}
+
+/* 
+                **************************
+                *        EL CHULU!       *
+                **************************
+ */
+
+.activo {
+    background-image: url(cthulhu.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
