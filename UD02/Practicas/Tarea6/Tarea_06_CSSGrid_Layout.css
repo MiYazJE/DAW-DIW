@@ -1,0 +1,46 @@
+/* Rubén Saiz */
+
+/* Mis variables */
+:root {
+    --gray: #949494;
+    --sombra: 7px 7px 3px 0px rgba(0,0,0,0.71);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 2fr;
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+}
+
+/* Expandir el tamaño hasta 3 columnas a la derecha */
+.item2 {
+    grid-column-end: span 3;
+}
+
+.item:nth-child(odd) {
+    background-color: var(--gray);
+    cursor: pointer;
+}
+
+/* Aplicar sombra a el elemento y al predecesor de él en el html */
+.item:nth-child(odd):hover,
+.item:nth-child(odd):hover + div {
+    box-shadow: var(--sombra);
+}
+
+/* Imagen CHULU en la esquina inferior izquierda */
+#SealOfApproval {
+    background-image: url("cthulhu_approval.gif");
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    left: 100%;
+    top: 100%;
+    transform: translate(-100%, -100%);
+}
