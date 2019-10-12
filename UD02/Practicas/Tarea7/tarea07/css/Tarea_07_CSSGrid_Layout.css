@@ -14,7 +14,6 @@
 
 header {
     grid-area: head;
-    grid-column-end: span 4;
     text-align: center;
 }
 
@@ -72,4 +71,9 @@ footer {
     text-align: center;
     font-size: 20px;
     padding-top: 20px;
+}
+
+/* Aplicar un borde verde a la imagen referenciada */
+:target {
+    border: 5px solid green !important;
 }
