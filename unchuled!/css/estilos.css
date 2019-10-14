@@ -1,0 +1,28 @@
+#juego {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(21, 1fr);
+    grid-template-rows: repeat(13, 1fr);
+}
+
+.celda {
+    width: 40px;
+    height: 40px;
+    background-color: black;
+}
+
+.caja {
+    background-color: orange;
+}
+
+.personaje {
+    background-image: url(/imgs/mario.png);
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+}
