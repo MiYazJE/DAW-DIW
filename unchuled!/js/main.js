@@ -1,6 +1,8 @@
 window.addEventListener('load', () => {
 
     let mapa = [];
+    // Contiene por donde se ha pasado en el mapa
+    let pisadas = [];
 
     // Creación del mapa con las celdas
     inicializarMapa();
@@ -19,6 +21,7 @@ window.addEventListener('load', () => {
 
         for (let i = 0; i < 13; i++) {
             mapa[i] = [];
+            pisadas[i] = new Array(13).fill(false);
             for (let j = 0; j < 21; j++) {
 
                 let divCelda = document.createElement('div');
@@ -44,6 +47,7 @@ window.addEventListener('load', () => {
             case 'ArrowRight': move(0, 1);  break;
             case 'ArrowDown':  move(1, 0);
         }
+        comprobarCajas();
     })
 
     function move(Y, X) {
@@ -66,13 +70,77 @@ window.addEventListener('load', () => {
         if (Y == -1) clase += 'arriba';
 
         mapa[personaje.y][personaje.x].classList.add(clase);
+        pisadas[personaje.y][personaje.x] = true;
 
-        personaje.x = posX;
+        // Actualizar la posicion
         personaje.y = posY;
+        personaje.x = posX;
 
         // Actualizar la nueva posicion del personaje en el mapa
-        mapa[personaje.y][personaje.x].classList = ['celda'];
+        mapa[personaje.y][personaje.x].classList = [];
+        mapa[personaje.y][personaje.x].classList.add('celda');
         mapa[personaje.y][personaje.x].classList.add('personaje');
+    }
+
+    // Comprueba si las cajas estan totalmente cubierto de pisadas
+    function comprobarCajas() {
+
+        for (let i = 1; i < mapa.length; i+=3) {
+            for (let j = 1; j < mapa[0].length; j+=4) {
+                if (mapa[i][j].classList.contains('caja')) {
+                    if (cajaCompleta = test(i, j)) {
+                        console.log(i + '-' + j + ': cajaCompleta');
+                        descubrirCaja(i, j);
+                    }
+                }
+            }
+        }
+
+    }   
+
+    function test(posY, posX) {
+
+        // Comprobar esquinas
+        if (!pisadas[posY - 1][posX - 1] ||
+            !pisadas[posY - 1][posX + 3] ||
+            !pisadas[posY + 2][posX - 1] ||
+            !pisadas[posY + 2][posX + 3] ) {
+                return false;
+        }
+
+        // console.log('extremos completos');
+
+        // comprobar parte de arriba y de abajo
+        for (let i = posX; i < posX + 3; i++) {
+            if (!pisadas[posY - 1][i]) 
+                return false;
+            if (!pisadas[posY + 2][i]) 
+                return false;
+        }
+
+        // console.log('parte de arriba y abajo completa')
+
+        // comprobar parte izq y der
+        for (let i = posY; i < posY + 2; i++) {
+            if (!pisadas[i][posX - 1])
+                return false;
+            // console.log(i + '-' + (posX-1) + ': ' + mapa[i][posX - 1].classList);
+            if (!pisadas[i][posX + 3])
+                return false;
+            // console.log(i + '-' + (posX+3) + ': ' + mapa[i][posX + 3].classList);
+        }
+
+        // console.log('izq y der completos');
+
+        return true;
+    }
+
+    function descubrirCaja(posY, posX) {
+        for (let i = posY; i < posY + 2; i++) {
+            for (let j = posX; j < posX + 3; j++) {
+                mapa[i][j].classList.add('cajaDescubierta');
+            }
+        }
     }
 
 })

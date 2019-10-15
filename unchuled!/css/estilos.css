@@ -21,6 +21,11 @@
     background-color: orange;
 }
 
+.cajaDescubierta {
+    background-color: red;
+    transition: 1s;
+}
+
 .personaje {
     background: black url(/imgs/mario3.png);
     background-size: 40px 40px;
