@@ -50,3 +50,8 @@
     background: black url(/imgs/pisada-abajo.png);
     background-size: 40px 40px;    
 }
+
+.momia {
+    background: black url(/imgs/momia.png);
+    background-size: 40px 40px;
+}

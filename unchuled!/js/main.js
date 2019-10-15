@@ -1,8 +1,12 @@
-window.addEventListener('load', () => {
+import Momia from './Momia.js';
 
+window.addEventListener('load', () => {
+    
+    let totalMomias = 50;
     let mapa = [];
     // Contiene por donde se ha pasado en el mapa
     let pisadas = [];
+    let momias = [];
 
     // Creación del mapa con las celdas
     inicializarMapa();
@@ -14,6 +18,9 @@ window.addEventListener('load', () => {
     let personaje = {};
     personaje.x = 0;
     personaje.y = 0;
+
+    crearMomias(totalMomias);
+    mostrarMomias();
 
     function inicializarMapa() {
 
@@ -88,8 +95,8 @@ window.addEventListener('load', () => {
         for (let i = 1; i < mapa.length; i+=3) {
             for (let j = 1; j < mapa[0].length; j+=4) {
                 if (mapa[i][j].classList.contains('caja')) {
-                    if (cajaCompleta = test(i, j)) {
-                        console.log(i + '-' + j + ': cajaCompleta');
+                    if (test(i, j)) {
+                        // console.log(i + '-' + j + ': cajaCompleta');
                         descubrirCaja(i, j);
                     }
                 }
@@ -140,6 +147,24 @@ window.addEventListener('load', () => {
             for (let j = posX; j < posX + 3; j++) {
                 mapa[i][j].classList.add('cajaDescubierta');
             }
+        }
+    }
+
+    function crearMomias(max) {
+        let momiasCreadas = 0;
+        while (momiasCreadas < max) {
+            let posY = Math.floor(Math.random() * 13);
+            let posX = Math.floor(Math.random() * 21);
+            if (!mapa[posY][posX].classList.contains('caja') && !mapa[posY][posX].classList.contains('personaje')) {
+                    momiasCreadas++;
+                    momias.push(new Momia(posY, posX));
+            }
+        }
+    }
+
+    function mostrarMomias() {
+        for (let momia of momias) {
+            mapa[momia.y][momia.x].classList.add('momia');
         }
     }
 
