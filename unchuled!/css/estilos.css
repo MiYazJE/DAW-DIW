@@ -22,7 +22,26 @@
 }
 
 .personaje {
-    background-image: url(/imgs/mario.png);
-    background-repeat: no-repeat;
+    background: black url(/imgs/mario3.png);
     background-size: 40px 40px;
+}
+
+.pisada-derecha {
+    background: black url(/imgs/pisada-derecha.png);
+    background-size: 40px 40px;    
+}
+
+.pisada-arriba {
+    background: black url(/imgs/pisada-arriba.png);
+    background-size: 40px 40px;    
+}
+
+.pisada-izquierda {
+    background: black url(/imgs/pisada-izquierda.png);
+    background-size: 40px 40px;    
+}
+
+.pisada-abajo {
+    background: black url(/imgs/pisada-abajo.png);
+    background-size: 40px 40px;    
 }
