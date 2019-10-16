@@ -8,16 +8,19 @@ let momias = [];
 let cajasDescubiertas = [];
 let personaje = new Character(0, 8);
 let puntos = 0;
+let vidas  = 5; 
 
 // Creación del mapa con las celdas
 inicializarMapa();
 
+actualizarPuntuacion(puntos);
+crearContenedorVidas();
+
 // Creacion aleatoriamente de las momias
 crearMomias(totalMomias);
 mostrarMomias();
-actualizarPuntuacion(puntos);
 
-setInterval(moverMomias, 1000);
+setInterval(moverMomias, 500);
 
 function inicializarMapa() {
 
@@ -103,6 +106,7 @@ function move(Y, X) {
     // si es asi hay que restarle una vida
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
         personaje.vidas--;
+        actualizarVidas();
         eliminarMomia(personaje.y, personaje.x);
         console.log('vidas: ' + personaje.vidas);
     }
@@ -226,6 +230,7 @@ function moverMomias() {
         if (mapa[momia.y][momia.x].classList.contains('personaje')) {
             momias.splice(i, 1);    
             personaje.vidas--;
+            actualizarVidas();
             console.log('Vidas: ' + personaje.vidas);    
         }
         else {
@@ -257,4 +262,18 @@ function actualizarPuntuacion(points) {
     if (puntos.length < 5)
         for (let i = puntos.length; i < 5; i++) puntos = '0' + puntos;
     spanPuntos.innerHTML = puntos;
+}
+
+function crearContenedorVidas() {
+    let contenedorVidas = document.querySelector('.contenedor-cajaVidas');
+    for (let i = 0; i < vidas; i++) {
+        let cajaVida = document.createElement('div');
+        cajaVida.classList.add('cajaVidas');
+        contenedorVidas.appendChild(cajaVida);
+    }
+}
+
+function actualizarVidas() {
+    let cajaVidas = document.querySelector('.cajaVidas');
+    cajaVidas.parentNode.removeChild(cajaVidas);
 }

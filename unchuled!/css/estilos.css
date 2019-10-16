@@ -30,8 +30,22 @@ span {
     color: white;
 }
 
+.contenedor-cajaVidas {
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    width: 200px;
+    height: 40px;
+    background-color: black;
+}
+
 .cajaVidas {
-    display: inline-block;
+    content: url(/imgs/setaMario.gif);
+    width: 40px;
+}
+
+.vidas {
+    display: inherit;
 }
 
 .nada {
