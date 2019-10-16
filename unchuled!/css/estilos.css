@@ -1,3 +1,8 @@
+body {
+    background-color: yellow;
+    font-family: 'Press Start 2P' cursive;
+}
+
 #juego {
     position: absolute;
     left: 50%;
@@ -33,17 +38,17 @@
 
 .pisada-derecha {
     background: black url(/imgs/pisada-derecha.png);
-    background-size: 40px 40px;    
+    background-size: 40px 40px;
 }
 
 .pisada-arriba {
     background: black url(/imgs/pisada-arriba.png);
-    background-size: 40px 40px;    
+    background-size: 40px 40px;
 }
 
 .pisada-izquierda {
     background: black url(/imgs/pisada-izquierda.png);
-    background-size: 40px 40px;    
+    background-size: 40px 40px;
 }
 
 .pisada-abajo {
@@ -52,6 +57,6 @@
 }
 
 .momia {
-    background: black url(/imgs/momia.png);
+    background: black url(/imgs/goomba.png);
     background-size: 40px 40px;
 }
