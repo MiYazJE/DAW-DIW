@@ -15,7 +15,7 @@ inicializarMapa();
 // Creacion aleatoriamente de las momias
 crearMomias(totalMomias);
 mostrarMomias();
-actualizarPuntuacion();
+actualizarPuntuacion(puntos);
 
 setInterval(moverMomias, 1000);
 
@@ -62,10 +62,14 @@ function inicializarMapa() {
 
 document.addEventListener('keydown', (key) => {
     switch (key.key) {
-        case 'ArrowUp':    move(-1, 0); break;
-        case 'ArrowLeft':  move(0, -1); break;
-        case 'ArrowRight': move(0, 1);  break;
-        case 'ArrowDown':  move(1, 0);
+        case 'ArrowUp':     
+        case 'w': move(-1, 0); break;
+        case 'ArrowLeft':  
+        case 'a': move(0, -1); break;
+        case 'ArrowRight': 
+        case 'd': move(0, 1);  break;
+        case 'ArrowDown':  
+        case 's': move(1, 0);
     }
     comprobarCajas();
 })
@@ -118,18 +122,15 @@ function isValidCharPosition(posY, posX) {
 // Comprueba si las cajas estan totalmente cubiertas de pisadas
 function comprobarCajas() {
 
-    for (let i = 2, x = 0; i < mapa.length; i += 3, x++)
-        for (let j = 1; j < mapa[0].length; j += 4, x++)
-            if (mapa[i][j].classList.contains('caja'))
-                if (!cajasDescubiertas[x] && test(i, j)) {
-                    cajasDescubiertas[x] = true;
+    for (let i = 2, posCaja = 0; i < mapa.length; i += 3, posCaja++)
+        for (let j = 1; j < mapa[0].length; j += 4, posCaja++)
+            if (!cajasDescubiertas[posCaja] && mapa[i][j].classList.contains('caja'))
+                if (test(i, j)) {
+                    cajasDescubiertas[posCaja] = true;
                     descubrirCaja(i, j);
-                    puntos = Number(puntos);
-                    puntos += 200;
-                    actualizarPuntuacion();
+                    actualizarPuntuacion(200);
                 }
 
-    console.table(cajasDescubiertas);
 }
 
 function test(posY, posX) {
@@ -250,10 +251,10 @@ function eliminarMomia(x, y) {
     } 
 }
 
-function actualizarPuntuacion() {
+function actualizarPuntuacion(points) {
     let spanPuntos = document.querySelector('.puntos');
-    puntos = String(puntos);
-    if (puntos.length < 4)
-        for (let i = puntos.length; i < 4; i++) puntos = '0' + puntos;
+    puntos = String(Number(puntos) + points);
+    if (puntos.length < 5)
+        for (let i = puntos.length; i < 5; i++) puntos = '0' + puntos;
     spanPuntos.innerHTML = puntos;
 }
