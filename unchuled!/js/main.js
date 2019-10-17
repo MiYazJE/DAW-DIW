@@ -1,10 +1,9 @@
 import Character from './Character.js';
 
-
-let totalMomias = 1;
-let mapa = [];
+let totalMomias = 2;
+let mapa    = [];
 let pisadas = [];
-let momias = [];
+let momias  = [];
 let cajasDescubiertas = [];
 let personaje = new Character(0, 8);
 let puntos = 0;
@@ -87,15 +86,17 @@ function move(Y, X) {
 
     // Eliminar anterior posicion del personaje
     mapa[personaje.y][personaje.x].classList = ['celda'];
-    // Agregamos la clase pisado para que se visualize por donde ha pasado
-
+    
     let clase = 'pisada-';
     if (X == 1) clase += 'derecha';
     if (X == -1) clase += 'izquierda';
     if (Y == 1) clase += 'abajo';
     if (Y == -1) clase += 'arriba';
-
+    
+    // Agregamos la clase pisado para que se visualize por donde ha pasado
     mapa[personaje.y][personaje.x].classList.add(clase);
+
+    // Marcamos que el personaje ya ha pasado por aqui
     pisadas[personaje.y][personaje.x] = true;
 
     // Actualizar la posicion
@@ -103,7 +104,7 @@ function move(Y, X) {
     personaje.x = posX;
 
     // Comprobar que el personaje invada la posicion de una momia
-    // si es asi hay que restarle una vida
+    // si es asi hay que restarle una vida y matar a la momia
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
         personaje.vidas--;
         actualizarVidas();
@@ -247,10 +248,12 @@ function isValidMomiaPosition(y, x) {
             !mapa[y][x].classList.contains('nada'));
 }
 
-function eliminarMomia(x, y) {
+function eliminarMomia(y, x) {
     for (let i = 0; i < momias.length; i++) {
         if (x == momias[i].x && y == momias[i].y) {
+            console.log(momias);
             momias.splice(i, 1); 
+            console.log(momias);
             return;
         }
     } 
@@ -275,5 +278,6 @@ function crearContenedorVidas() {
 
 function actualizarVidas() {
     let cajaVidas = document.querySelector('.cajaVidas');
-    cajaVidas.parentNode.removeChild(cajaVidas);
+    if (cajaVidas && cajaVidas.parentNode)
+        cajaVidas.parentNode.removeChild(cajaVidas);
 }
