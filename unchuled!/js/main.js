@@ -1,42 +1,47 @@
 import Character from './Character.js';
 
-let totalMomias = 5;
+let coloresNiveles = ['#003CFF', '#A300FF', '#FF0000', '#00FF0A'];
+let nivel = 0;
+
+let totalMomias = 1;
 let mapa    = [];
 let pisadas = [];
 let momias  = [];
 let cajasDescubiertas = [];
 let contenidoCajas = [];
-let personaje = new Character(0, 8);
+const personaje = new Character(0, 8);
 let puntos = 0;
-let vidas  = 5; 
 let mover = true;
 
-// Creación del mapa con las celdas
 inicializarMapa();
-
-actualizarPuntuacion(puntos);
 crearContenedorVidas();
+play();
 
-// Creacion aleatoriamente de las momias
-crearMomias(totalMomias);
-mostrarMomias();
+function play() {
+    
+    document.querySelector('html').style.backgroundColor = 
+            coloresNiveles[parseInt(nivel++ % coloresNiveles.length)];
 
-setInterval(moverMomias, 800);
+    cajasDescubiertas = new Array(20).fill(false);
+    actualizarPuntuacion();
+    rellenarContenidoCajas();
+    console.table(contenidoCajas);
+    
+    personaje.reset();
+    resetPisadas();
 
-contenidoCajas = new Array(20).fill('vacio');
-rellenarContenidoCajas();
-console.table(contenidoCajas);
+    momias = [];
+    crearMomias();
+    mostrarMomias();
+}
 
-mapa[2][2].classList.add('caja');
+setInterval(moverMomias, 600);
 
 function inicializarMapa() {
 
     let tablero = document.querySelector('.tablero');
 
     mapa[0] = [];
-    pisadas[0] = new Array(21).fill(false);
-    cajasDescubiertas = new Array(20).fill(false);
-
     for (let i = 0; i < 21; i++) {
         let div = document.createElement('div');
         div.classList.add('nada');
@@ -49,16 +54,12 @@ function inicializarMapa() {
 
     for (let i = 1; i < 14; i++) {
         mapa[i] = [];
-        pisadas[i] = new Array(21).fill(false);
         for (let j = 0; j < 21; j++) {
 
             let divCelda = document.createElement('div');
 
             divCelda.classList.add('celda');
-            if (i % 3 == 1 || j % 4 == 0) {
-
-            }
-            else {
+            if (i % 3 != 1 && j % 4 != 0) {
                 divCelda.classList.add('caja');
             }
 
@@ -70,34 +71,36 @@ function inicializarMapa() {
     mapa[personaje.y][personaje.x].classList.add('personaje');
 }
 
-document.addEventListener('keydown', (key) => {
-    switch (key.key) {
-        case 'ArrowUp':     
-        case 'w': move(-1, 0); break;
-        case 'ArrowLeft':  
-        case 'a': move(0, -1); break;
-        case 'ArrowRight': 
-        case 'd': move(0, 1);  break;
-        case 'ArrowDown':  
-        case 's': move(1, 0);
+function limpiarMapa() {
+
+    for (let i = 0; i < 21; i++) mapa[0][i].classList = ['nada'];
+    mapa[0][8].classList = ['celda'];
+
+    for (let i = 1; i < 14; i++) {
+        for (let j = 0; j < 21; j++) {
+            mapa[i][j].classList = ['celda'];
+            if (i % 3 != 1 && j % 4 != 0) 
+                mapa[i][j].classList.add('caja');
+        }
     }
-    comprobarCajas();
-})
+
+    mapa[0][8].classList.add('personaje');
+}
 
 function move(Y, X) {
 
-    if (!mover) return;
+    // if (!mover) return;
     mover = false;
 
     let posX = personaje.x + X;
     let posY = personaje.y + Y;
 
     // Relentizar el movimiento del personaje 80 ms
-    setTimeout(() => mover = true, 80);
+    // setTimeout(() => mover = true, 80);
 
     // Salir si la posicion del personaje esta fuera del mapa o si su direccion esta 
     // ocupada por una caja
-    if (!isValidCharPosition(posY, posX)) return;
+    if (!isValidCharacterPosition(posY, posX)) return;
 
     // Eliminar anterior posicion del personaje
     mapa[personaje.y][personaje.x].classList = ['celda'];
@@ -121,19 +124,36 @@ function move(Y, X) {
     // Comprobar que el personaje invada la posicion de una momia
     // si es asi hay que restarle una vida y matar a la momia
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
-        personaje.vidas--;
-        actualizarVidas();
+        if (!personaje.pergamino) {
+            personaje.vidas--;
+            actualizarVidas();
+            console.log('vidas: ' + personaje.vidas);
+        }
         eliminarMomia(personaje.y, personaje.x);
-        console.log('vidas: ' + personaje.vidas);
     }
 
     // Actualizar la nueva posicion del personaje en el mapa
     mapa[personaje.y][personaje.x].classList = [];
     mapa[personaje.y][personaje.x].classList.add('celda');
     mapa[personaje.y][personaje.x].classList.add('personaje');
+
+    // Comprobar si el personaje esta en la casilla de inicio[0][8]
+    // con la llave y la urna
+    if (personaje.y == 0 && personaje.x == 8 && personaje.llave && personaje.urna) {
+        // Accederemos al siguiente nivel con una momia mas 
+        totalMomias++;
+        notificarNivelSuperado();
+        limpiarMapa();
+        play();
+    }
+
 }
 
-function isValidCharPosition(posY, posX) {
+function notificarNivelSuperado() {
+    alert('nivel superado, suerte en el siguiente');
+}
+
+function isValidCharacterPosition(posY, posX) {
     return (posX < mapa[0].length && posX >= 0 && posY < mapa.length && posY >= 0 &&
         !mapa[posY][posX].classList.contains('caja')) &&
         !mapa[posY][posX].classList.contains('nada');
@@ -145,18 +165,27 @@ function comprobarCajas() {
     for (let i = 2, posCaja = 0; i < mapa.length; i += 3)
         for (let j = 1; j < mapa[0].length; j += 4, posCaja++)
             if (!cajasDescubiertas[posCaja] && mapa[i][j].classList.contains('caja'))
-                if (test(i, j)) {
+                if (cajaRodeada(i, j)) {
 
                     cajasDescubiertas[posCaja] = true;
                     descubrirCaja(i, j, posCaja);
 
-                    if (contenidoCajas[posCaja] == 'cofre') 
-                        actualizarPuntuacion(200);
+                    if (contenidoCajas[posCaja] == 'cofre') {
+                        puntos = parseInt(puntos) + 200;
+                        actualizarPuntuacion();
+                    }
+                    else if (contenidoCajas[posCaja] == 'pergamino') 
+                        personaje.pergamino = true;
+                    else if (contenidoCajas[posCaja] == 'llave') 
+                        personaje.llave = true;
+                    else if (contenidoCajas[posCaja] == 'urna')
+                        personaje.urna = true;
+
                 }
 
 }
 
-function test(posY, posX) {
+function cajaRodeada(posY, posX) {
 
     // Comprobar esquinas
     if (!pisadas[posY - 1][posX - 1] ||
@@ -193,6 +222,7 @@ function descubrirCaja(posY, posX, posCaja) {
                 mapa[i][j].classList.add('vacio');
             }
     }
+    // Insertar urna, pergamino o cofre
     else if (contenidoCajas[posCaja] != 'momia') {
         for (let i = posY; i < posY + 2; i++) 
             for (let j = posX; j < posX + 3; j++) 
@@ -201,23 +231,31 @@ function descubrirCaja(posY, posX, posCaja) {
         mapa[posY][posX + 1].classList.add(contenidoCajas[posCaja]);
     }
     else {
-
+        // insertar momia
         for (let i = posY; i < posY + 2; i++) 
             for (let j = posX; j < posX + 3; j++) 
-                    mapa[i][j].classList.add('sinFondo');
+                    mapa[i][j].classList.add('vacio');
+
+        // Elegir de que esquina saldra la momia
+        let dirY = [0, 1, 0, 1];
+        let dirX = [0, 0, 2, 2];
+        let rnd = Math.floor(Math.random() * 4);
+        
+        posY += dirY[rnd];
+        posX += dirX[rnd];
 
         // mostrar la momia en una esquina
-        mapa[posY][posX + 2].classList = ['celda'];
-        mapa[posY][posX + 2].classList.add('momia');
+        mapa[posY][posX].classList = ['celda'];
+        mapa[posY][posX].classList.add('momia');
         // creacion de la momia
-        momias.push(new Character(posY, posX + 2));
+        momias.push(new Character(posY, posX));
     }
 
 }
 
-function crearMomias(max) {
+function crearMomias() {
     let momiasCreadas = 0;
-    while (momiasCreadas < max) {
+    while (momiasCreadas < totalMomias) {
         let posY = Math.floor(Math.random() * 13);
         let posX = Math.floor(Math.random() * 21);
         if (!mapa[posY][posX].classList.contains('caja') &&
@@ -256,6 +294,7 @@ function moverMomias() {
             posX = -1;
         }
         else {
+            // Adquirir aleatoriamente una posicion valida
             let salir = false;
             let dirY = [-1, 0, 1, 0];
             let dirX = [0, -1, 0, 1];
@@ -268,17 +307,23 @@ function moverMomias() {
             }
         }
 
+        // Actualizamos la nueva posicion de la momia
         momia.y += posY;
         momia.x += posX;
 
-        // La momia le ha quitado una vida al personaje
+        // Comprobar si el personaje y la momia han colisionado
         if (mapa[momia.y][momia.x].classList.contains('personaje')) {
+            // Eliminamos la momia
             momias.splice(i, 1);    
-            personaje.vidas--;
-            actualizarVidas();
-            console.log('Vidas: ' + personaje.vidas);    
+            // Si el personaje no tiene el pergamino perdera una vida
+            if (!personaje.pergamino) {
+                personaje.vidas--;
+                actualizarVidas();
+                console.log('Vidas: ' + personaje.vidas);    
+            }
         }
         else {
+            // Si la momia no muere a manos del personaje la pintaremos en el mapa
             mapa[momia.y][momia.x].classList.add('momia');
         }
 
@@ -293,27 +338,18 @@ let isValidMomiaPosition = (y, x) => {
 }
 
 function eliminarMomia(y, x) {
-    for (let i = 0; i < momias.length; i++) {
+    let momiaEliminada = false;
+    for (let i = 0; i < momias.length && !momiaEliminada; i++) {
         if (x == momias[i].x && y == momias[i].y) {
-            console.log(momias);
             momias.splice(i, 1); 
-            console.log(momias);
-            return;
+            momiaEliminada = true;
         }
     } 
 }
 
-function actualizarPuntuacion(points) {
-    let spanPuntos = document.querySelector('.puntos');
-    puntos = String(Number(puntos) + points);
-    if (puntos.length < 5)
-        for (let i = puntos.length; i < 5; i++) puntos = '0' + puntos;
-    spanPuntos.innerHTML = puntos;
-}
-
 function crearContenedorVidas() {
     let contenedorVidas = document.querySelector('.contenedor-cajaVidas');
-    for (let i = 0; i < vidas; i++) {
+    for (let i = 0; i < personaje.vidas; i++) {
         let cajaVida = document.createElement('div');
         cajaVida.classList.add('cajaVidas');
         contenedorVidas.appendChild(cajaVida);
@@ -328,12 +364,13 @@ function actualizarVidas() {
 
 function rellenarContenidoCajas() {
 
+    contenidoCajas = new Array(20).fill('vacio');
+
     // *******************
     // * INSERTAR COFRES *
     // *******************
 
-    // Crear un random entre 5 y 15, ambos incluidos.
-    let cofresMax = Math.floor(Math.random() * (15 - 5 + 1)) + 5;
+    let cofresMax = Math.floor(Math.random() * (15 - 7 + 1)) + 7;
     while (cofresMax != 0) {
         var rnd = Math.floor(Math.random() * 20);
         if (contenidoCajas[rnd] == 'vacio') {
@@ -342,15 +379,44 @@ function rellenarContenidoCajas() {
         }
     }
 
-    let elementos = ['pergamino', 'llave', 'momia', 'momia'];
+    //      *******************************************
+    //      * INSERTAR PERGAMINO, LLAVE, MOMIA y URNA *
+    //      *******************************************
+
+    let elementos = ['pergamino', 'llave', 'momia', 'momia', 'urna'];
     let index = 0;
 
-    // insertar momias, pergamino y llave
     while (index != elementos.length) {
         var rnd = Math.floor(Math.random() * 20);
-        if (contenidoCajas[rnd] == 'vacio') {
+        if (contenidoCajas[rnd] == 'vacio') 
             contenidoCajas[rnd] = elementos[index++];
-        }
     }
 
 }
+
+function actualizarPuntuacion() {
+    let spanPuntos = document.querySelector('.puntos');
+    puntos = String(puntos);
+    if (puntos.length < 5)
+        for (let i = puntos.length; i < 5; i++) puntos = '0' + puntos;
+    spanPuntos.innerHTML = puntos;
+}
+
+function resetPisadas() {
+    for (let i = 0; i <= 13; i++) 
+        pisadas[i] = new Array(21).fill(false);
+}
+
+document.addEventListener('keydown', (key) => {
+    switch (key.key) {
+        case 'ArrowUp':     
+        case 'w': move(-1, 0); break;
+        case 'ArrowLeft':  
+        case 'a': move(0, -1); break;
+        case 'ArrowRight': 
+        case 'd': move(0, 1);  break;
+        case 'ArrowDown':  
+        case 's': move(1, 0);
+    }
+    comprobarCajas();
+})

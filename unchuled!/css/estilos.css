@@ -34,14 +34,15 @@ span {
     display: flex;
     justify-content: center;
     margin-left: 10px;
-    width: 200px;
-    height: 40px;
+    min-width: 200px;
+    min-height: 40px;
     background-color: black;
 }
 
 .cajaVidas {
     content: url(/imgs/setaMario.gif);
-    width: 40px;
+    width: 30px;
+    margin: 5px;
 }
 
 .vidas {
@@ -119,11 +120,16 @@ span {
 
 .llave {
     content: url(/imgs/peach.png);
-    transform: translateY(18px);
+    transform: scale3d(1.5, 1.5, 1.5) translateY(10px);
     background-color: transparent;
 }
 
 .pergamino {
     content: url(/imgs/flower.png);
     transform: translateY(18px);
+}
+
+.urna {
+    content: url(/imgs/luigi.png);
+    transform: scale3d(1.5, 1.5, 1.5) translateY(10px);
 }
