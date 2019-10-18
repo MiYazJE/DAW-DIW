@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap');
 
 body {
-    background-color: yellow;
+    background-color: green;
     font-family: 'Press Start 2P';
 }
 
@@ -67,7 +67,9 @@ span {
 }
 
 .caja {
-    background-color: orange;
+    background-image: url(/imgs/cajaMario.png);
+    background-size: 40px 40px;
+    background-color: transparent;
 }
 
 .cajaDescubierta {
@@ -85,11 +87,11 @@ span {
 }
 
 .pisada-arriba {
-    content:  url(/imgs/pisada-arriba.png);
+    content: url(/imgs/pisada-arriba.png);
 }
 
 .pisada-izquierda {
-    content:  url(/imgs/pisada-izquierda.png);
+    content: url(/imgs/pisada-izquierda.png);
 }
 
 .pisada-abajo {
@@ -97,5 +99,31 @@ span {
 }
 
 .momia {
-    content: url(/imgs/goomba.png);
+    content: url(/imgs/boo.gif);
+}
+
+.cofre {
+    content: url(/imgs/moneda.gif);
+    transform: translateY(18px);
+    background-color: transparent;
+}
+
+.vacio {
+    content: url(/imgs/ladrillo.png);
+    background-color: transparent;
+}
+
+.sinFondo {
+    background-image: none;
+}
+
+.llave {
+    content: url(/imgs/peach.png);
+    transform: translateY(18px);
+    background-color: transparent;
+}
+
+.pergamino {
+    content: url(/imgs/flower.png);
+    transform: translateY(18px);
 }
