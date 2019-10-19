@@ -1,5 +1,6 @@
 import Character from './Character.js';
 
+// Un fondo por nivel
 let coloresNiveles = ['#003CFF', '#A300FF', '#FF0000', '#00FF0A'];
 let nivel = 0;
 
@@ -89,14 +90,28 @@ function limpiarMapa() {
 
 function move(Y, X) {
 
-    // if (!mover) return;
+    // No entrar a la function mientras el timeout ponga mover a true
+    if (!mover) return;
     mover = false;
+
+    // Comprobar si el personaje esta en la casilla de inicio[0][8]
+    // con la llave y la urna
+    if (personaje.y == 0 && personaje.x == 8 && Y == -1 &&
+        personaje.llave && personaje.urna) {
+        // Accederemos al siguiente nivel con una momia mas 
+        totalMomias++;
+        notificarNivelSuperado();
+        limpiarMapa();
+        play();
+        mover = true;
+        return;
+    }
 
     let posX = personaje.x + X;
     let posY = personaje.y + Y;
 
     // Relentizar el movimiento del personaje 80 ms
-    // setTimeout(() => mover = true, 80);
+    setTimeout(() => mover = true, 80);
 
     // Salir si la posicion del personaje esta fuera del mapa o si su direccion esta 
     // ocupada por una caja
@@ -125,9 +140,7 @@ function move(Y, X) {
     // si es asi hay que restarle una vida y matar a la momia
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
         if (!personaje.pergamino) {
-            personaje.vidas--;
-            actualizarVidas();
-            console.log('vidas: ' + personaje.vidas);
+            quitarVida();
         }
         eliminarMomia(personaje.y, personaje.x);
     }
@@ -137,16 +150,33 @@ function move(Y, X) {
     mapa[personaje.y][personaje.x].classList.add('celda');
     mapa[personaje.y][personaje.x].classList.add('personaje');
 
-    // Comprobar si el personaje esta en la casilla de inicio[0][8]
-    // con la llave y la urna
-    if (personaje.y == 0 && personaje.x == 8 && personaje.llave && personaje.urna) {
-        // Accederemos al siguiente nivel con una momia mas 
-        totalMomias++;
-        notificarNivelSuperado();
-        limpiarMapa();
-        play();
-    }
+}
 
+function quitarVida() {
+    if (personaje.vidas == 0) {
+        // Indicar GAME OVER
+        alert('GAME OVER\n Puntuación: ' + puntos);
+        gameOver();
+    }
+    else {
+        personaje.vidas--;
+        actualizarVidas();
+        console.log('vidas: ' + personaje.vidas);
+    }
+}
+
+// Resetearlo todo
+function gameOver() {
+    totalMomias = 1;
+    personaje.reset();
+    personaje.vidas = 5;
+    personaje.y = 0;
+    personaje.x = 8;
+    nivel = 0;
+    puntos = 0;
+    crearContenedorVidas();
+    limpiarMapa();
+    play();
 }
 
 function notificarNivelSuperado() {
@@ -317,9 +347,7 @@ function moverMomias() {
             momias.splice(i, 1);    
             // Si el personaje no tiene el pergamino perdera una vida
             if (!personaje.pergamino) {
-                personaje.vidas--;
-                actualizarVidas();
-                console.log('Vidas: ' + personaje.vidas);    
+                quitarVida();
             }
         }
         else {
@@ -334,7 +362,8 @@ let isValidMomiaPosition = (y, x) => {
     return  x >= 0 && x < mapa[0].length &&
             y >= 0 && y < mapa.length && 
             !mapa[y][x].classList.contains('caja') && 
-            !mapa[y][x].classList.contains('nada');
+            !mapa[y][x].classList.contains('nada') && 
+            !mapa[y][x].classList.contains('momia');
 }
 
 function eliminarMomia(y, x) {
