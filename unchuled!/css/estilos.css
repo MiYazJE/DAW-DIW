@@ -132,3 +132,23 @@ span {
     content: url(/imgs/luigi.png);
     transform: scale3d(1.5, 1.5, 1.5) translateY(10px);
 }
+
+.gameOver h1 {
+    font-size: 150px;
+}
+
+.gameOver span {
+    color: white;
+}
+
+.gameOver {
+    background-color: rgba(250, 0, 0, 0.60);
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    display: none;
+}

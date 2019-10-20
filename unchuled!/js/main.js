@@ -13,6 +13,7 @@ let contenidoCajas = [];
 const personaje = new Character(0, 8);
 let puntos = 0;
 let mover = true;
+let gameOver = false;
 
 inicializarMapa();
 crearContenedorVidas();
@@ -155,8 +156,9 @@ function move(Y, X) {
 function quitarVida() {
     if (personaje.vidas == 0) {
         // Indicar GAME OVER
-        alert('GAME OVER\n Puntuación: ' + puntos);
-        gameOver();
+        gameOver = true;
+        document.querySelector('.gameOver').style.display = 'block';
+        
     }
     else {
         personaje.vidas--;
@@ -166,7 +168,7 @@ function quitarVida() {
 }
 
 // Resetearlo todo
-function gameOver() {
+function reiniciar() {
     totalMomias = 1;
     personaje.reset();
     personaje.vidas = 5;
@@ -174,6 +176,11 @@ function gameOver() {
     personaje.x = 8;
     nivel = 0;
     puntos = 0;
+}
+
+function seguirJugando() {
+    document.querySelector('.gameOver').style.display = 'none';
+    reiniciar();
     crearContenedorVidas();
     limpiarMapa();
     play();
@@ -309,8 +316,6 @@ function moverMomias() {
         let posY = 0, posX = 0;
         let momia = momias[i];
 
-        mapa[momia.y][momia.x].classList.remove('momia');
-
         if (momia.y < personaje.y && isValidMomiaPosition((momia.y + 1), momia.x)) {
             posY = 1;
         }   
@@ -323,19 +328,9 @@ function moverMomias() {
         else if ( isValidMomiaPosition(momia.y, (momia.x - 1)) ) {
             posX = -1;
         }
-        else {
-            // Adquirir aleatoriamente una posicion valida
-            let salir = false;
-            let dirY = [-1, 0, 1, 0];
-            let dirX = [0, -1, 0, 1];
-            let pos;
-            while (!salir) {
-                pos = Math.floor(Math.random() * 4);
-                posY = dirY[pos];
-                posX = dirX[pos++];
-                salir = isValidMomiaPosition(momia.y + posY, momia.x + posX);
-            }
-        }
+
+        // Quitamos la momia de la posicion actual
+        mapa[momia.y][momia.x].classList.remove('momia');
 
         // Actualizamos la nueva posicion de la momia
         momia.y += posY;
@@ -346,16 +341,16 @@ function moverMomias() {
             // Eliminamos la momia
             momias.splice(i, 1);    
             // Si el personaje no tiene el pergamino perdera una vida
-            if (!personaje.pergamino) {
+            if (!personaje.pergamino) 
                 quitarVida();
-            }
         }
         else {
-            // Si la momia no muere a manos del personaje la pintaremos en el mapa
+            // Si la momia no muere a manos del personaje la pintaremos en el mapa con suu nueva posicion
             mapa[momia.y][momia.x].classList.add('momia');
         }
 
     }
+    
 }
 
 let isValidMomiaPosition = (y, x) => {
@@ -437,6 +432,12 @@ function resetPisadas() {
 }
 
 document.addEventListener('keydown', (key) => {
+    if (gameOver) {
+        gameOver = false;
+        seguirJugando();
+        return;
+    }
+
     switch (key.key) {
         case 'ArrowUp':     
         case 'w': move(-1, 0); break;
