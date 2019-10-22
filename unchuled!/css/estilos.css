@@ -77,10 +77,6 @@ span {
     transition: 1s;
 }
 
-.personaje {
-    content:  url(/imgs/mario3.png);
-}
-
 .pisada-derecha {
     content: url(/imgs/pisada-derecha.png);
     background-size: 40px 40px;
@@ -151,4 +147,28 @@ span {
     transform: translate(-50%, -50%);
     padding: 20px;
     display: none;
+}
+
+.personaje {
+    /* content: url(/imgs/mario_left2.png); */
+}
+
+.personaje-standard {
+    content: url(/imgs/mario-standard.png);
+}
+
+.personaje-left {
+    content: url(/imgs/mario_left.png);
+}
+
+.personaje-left2 {
+    content: url(/imgs/mario_left2.png);
+}
+
+.personaje-right {
+    content: url(/imgs/mario_right.png);
+}
+
+.personaje-right2 {
+    content: url(/imgs/mario_right2.png);
 }

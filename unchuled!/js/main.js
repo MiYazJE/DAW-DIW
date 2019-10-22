@@ -71,6 +71,7 @@ function inicializarMapa() {
     }
 
     mapa[personaje.y][personaje.x].classList.add('personaje');
+    mapa[personaje.y][personaje.x].classList.add('personaje-standard');
 }
 
 function limpiarMapa() {
@@ -108,6 +109,23 @@ function move(Y, X) {
         return;
     }
 
+    let classDirection;
+    if (X == -1) {
+        if (mapa[personaje.y][personaje.x].classList.contains('personaje-left'))
+            classDirection = 'personaje-left2';
+        else 
+            classDirection = 'personaje-left';
+    }
+    else if (X == 1) {
+        if (mapa[personaje.y][personaje.x].classList.contains('personaje-right'))
+            classDirection = 'personaje-right2';
+        else 
+            classDirection = 'personaje-right';
+    }
+    else {
+        classDirection = 'personaje-standard';
+    }
+
     let posX = personaje.x + X;
     let posY = personaje.y + Y;
 
@@ -140,9 +158,10 @@ function move(Y, X) {
     // Comprobar que el personaje invada la posicion de una momia
     // si es asi hay que restarle una vida y matar a la momia
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
-        if (!personaje.pergamino) {
+        if (!personaje.pergamino) 
             quitarVida();
-        }
+        else 
+            personaje.pergamino = false;
         eliminarMomia(personaje.y, personaje.x);
     }
 
@@ -150,6 +169,7 @@ function move(Y, X) {
     mapa[personaje.y][personaje.x].classList = [];
     mapa[personaje.y][personaje.x].classList.add('celda');
     mapa[personaje.y][personaje.x].classList.add('personaje');
+    mapa[personaje.y][personaje.x].classList.add(classDirection);
 
 }
 
@@ -343,6 +363,8 @@ function moverMomias() {
             // Si el personaje no tiene el pergamino perdera una vida
             if (!personaje.pergamino) 
                 quitarVida();
+            else 
+                personaje.pergamino = false;
         }
         else {
             // Si la momia no muere a manos del personaje la pintaremos en el mapa con suu nueva posicion
