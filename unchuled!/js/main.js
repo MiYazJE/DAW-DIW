@@ -157,7 +157,7 @@ function move(Y, X) {
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
         if (!personaje.pergamino) 
             quitarVida();
-        else 
+        else
             personaje.pergamino = false;
         eliminarMomia(personaje.y, personaje.x);
     }
@@ -363,6 +363,7 @@ function moverMomias() {
 
         // Quitamos la momia de la posicion actual
         mapa[momia.y][momia.x].classList.remove('momia');
+        mapa[momia.y][momia.x].classList.remove('contraste');
 
         // Actualizamos la nueva posicion de la momia
         momia.y += posY;
@@ -381,6 +382,8 @@ function moverMomias() {
         else {
             // Si la momia no muere a manos del personaje la pintaremos en el mapa con suu nueva posicion
             mapa[momia.y][momia.x].classList.add('momia');
+            if (personaje.pergamino)
+                mapa[momia.y][momia.x].classList.add('contraste');
         }
 
     }

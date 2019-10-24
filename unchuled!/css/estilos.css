@@ -181,6 +181,7 @@ span {
 
 .momia {
     content: url(/imgs/boo.gif);
+    background-color: black;
 }
 
 .cofre {
@@ -258,3 +259,6 @@ span {
     content: url(/imgs/mario_right2.png);
 }
 
+.contraste {
+    filter: invert(100%);
+}
