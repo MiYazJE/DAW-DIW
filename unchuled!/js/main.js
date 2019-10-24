@@ -1,7 +1,7 @@
 import Character from './Character.js';
 
 // Un fondo por nivel
-let coloresNiveles = ['#003CFF', '#A300FF', '#FF0000', '#00FF0A'];
+let coloresNiveles = ['#4B67D9', '#A300FF', '#00FFCD', '#00FF0A'];
 let nivel = 0;
 
 let totalMomias = 1;
@@ -88,6 +88,7 @@ function limpiarMapa() {
     }
 
     mapa[0][8].classList.add('personaje');
+    mapa[0][8].classList.add('personaje-standard');
 }
 
 function move(Y, X) {
@@ -101,11 +102,7 @@ function move(Y, X) {
     if (personaje.y == 0 && personaje.x == 8 && Y == -1 &&
         personaje.llave && personaje.urna) {
         // Accederemos al siguiente nivel con una momia mas 
-        totalMomias++;
-        notificarNivelSuperado();
-        limpiarMapa();
-        play();
-        mover = true;
+        siguienteNivel();
         return;
     }
 
@@ -173,6 +170,15 @@ function move(Y, X) {
 
 }
 
+function siguienteNivel() {
+    totalMomias++;
+    notificarNivelSuperado();
+    reiniciarCajas();
+    limpiarMapa();
+    play();
+    mover = true;
+}
+
 function quitarVida() {
     if (personaje.vidas == 0) {
         // Indicar GAME OVER
@@ -196,6 +202,7 @@ function reiniciar() {
     personaje.x = 8;
     nivel = 0;
     puntos = 0;
+    reiniciarCajas();
 }
 
 function seguirJugando() {
@@ -230,14 +237,19 @@ function comprobarCajas() {
                     if (contenidoCajas[posCaja] == 'cofre') {
                         puntos = parseInt(puntos) + 200;
                         actualizarPuntuacion();
+                        insertarContenido('contenedorMonedas', 'leyendaCajaMoneda', 'cantidadMonedas');
                     }
-                    else if (contenidoCajas[posCaja] == 'pergamino') 
+                    else if (contenidoCajas[posCaja] == 'pergamino') {
                         personaje.pergamino = true;
-                    else if (contenidoCajas[posCaja] == 'llave') 
+                    }
+                    else if (contenidoCajas[posCaja] == 'llave') {
+                        insertarContenido('contenedorLlave', 'leyendaCajaLlave', 'cantidadLlaves');
                         personaje.llave = true;
-                    else if (contenidoCajas[posCaja] == 'urna')
+                    }
+                    else if (contenidoCajas[posCaja] == 'urna') {
+                        insertarContenido('contenedorUrna', 'leyendaCajaUrna', 'cantidadUrnas');
                         personaje.urna = true;
-
+                    }
                 }
 
 }
@@ -454,7 +466,11 @@ function resetPisadas() {
 }
 
 document.addEventListener('keydown', (key) => {
+
+    // Si se ha indicado el gameOver, solo y solo si, empezar de nuevo
+    // si se presiona la tecla "Enter"
     if (gameOver) {
+        if (key.key != 'Enter') return;
         gameOver = false;
         seguirJugando();
         return;
@@ -472,3 +488,33 @@ document.addEventListener('keydown', (key) => {
     }
     comprobarCajas();
 })
+
+
+function insertarContenido(root, classCaja, classContenido) {
+
+    console.log(root);
+    let parent = document.querySelector('.' + root);
+    let contenido = document.querySelector('.' + classContenido);
+
+    let value = contenido.innerHTML.substring(1);
+    contenido.innerHTML = 'x' + (parseInt(value) + 1);
+
+    let item = document.createElement('div');
+    item.classList.add(classCaja);
+    parent.appendChild(item);
+}
+
+function reiniciarCajas() {
+
+    let roots = document.querySelectorAll('.wrapLeyendaCajas');
+    for (let i in roots) {
+        let eliminarHijos = roots[i];
+        while (eliminarHijos.firstChild)
+            eliminarHijos.removeChild(eliminarHijos.firstChild);
+    }
+
+    document.querySelector('.cantidadMonedas').innerHTML = 'x0';
+    document.querySelector('.cantidadUrnas').innerHTML   = 'x0';
+    document.querySelector('.cantidadLlaves').innerHTML  = 'x0';
+
+}

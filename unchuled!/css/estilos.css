@@ -9,24 +9,29 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
+    display: grid;
+    grid-template-areas: "info info"
+                         "tablero leyenda";
 }
 
 .info {
+    grid-area: info;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
 }
 
 span {
-    font-size: 25px;
+    font-size: 30px;
     color: red;
+    margin-right: 10px;
 }
 
 .puntos {
     background-color: blue;
     color: white;
+    padding: 5px;
+    border-radius: 3px; 
 }
 
 .contenedor-cajaVidas {
@@ -36,6 +41,13 @@ span {
     min-width: 200px;
     min-height: 40px;
     background-color: black;
+    border-radius: 3px; 
+}
+
+/* Alinear verticalmente la puntuacion */
+.score {
+    display: flex;
+    align-items: center;
 }
 
 .cajaVidas {
@@ -45,16 +57,89 @@ span {
 }
 
 .vidas {
-    display: inherit;
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.leyenda {
+    grid-area: leyenda;
+    width: 200px;
+    margin-top: 40px;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0px 20px 0px 20px;
+    background: url(/imgs/ladrillo.png);
+}
+
+.contenedorInventario {
+    display: flex;
+    flex-direction: column;
+    background-color: black; 
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Aplica un margin a todos los hijos de un mismo padre menos al primer hijo */
+.contenedorInventario:nth-child(1n+2) {
+    margin-top: 20px;
+}
+
+.wrapLeyendaCajas {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.leyendaCajaMoneda {
+    width: 20px;
+    content: url(/imgs/moneda.gif);
+}
+
+.leyendaCajaLlave {
+    content: url(/imgs/peach.png);
+    width: 20px;
+}
+
+.leyendaCajaUrna {
+    content: url(/imgs/luigi.png);
+    width: 20px;
+}
+
+.leyendaLlave {
+    width: 30px;
+    content: url(/imgs/peach.png);
+}
+
+.tituloInventario {
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+    font-size: 15px;
+    color: red;
+}
+
+.contenidoInventario {
+    color: red;
+}
+
+.leyendaUrna {
+    
 }
 
 .nada {
     width: 40px;
     height: 40px;
-    background-color: transparent;
 }
 
 .tablero {
+    grid-area: tablero;
     display: grid;
     grid-template-columns: repeat(21, 1fr);
     grid-template-rows: repeat(13, 1fr);
@@ -150,7 +235,7 @@ span {
 }
 
 .personaje {
-    /* content: url(/imgs/mario_left2.png); */
+    
 }
 
 .personaje-standard {
@@ -172,3 +257,4 @@ span {
 .personaje-right2 {
     content: url(/imgs/mario_right2.png);
 }
+
