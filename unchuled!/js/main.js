@@ -256,28 +256,12 @@ function comprobarCajas() {
 
 function cajaRodeada(posY, posX) {
 
-    // Comprobar esquinas
-    if (!pisadas[posY - 1][posX - 1] ||
-        !pisadas[posY - 1][posX + 3] ||
-        !pisadas[posY + 2][posX - 1] ||
-        !pisadas[posY + 2][posX + 3]) {
-        return false;
-    }
-
-    // comprobar parte de arriba y de abajo
-    for (let i = posX; i < posX + 3; i++) {
-        if (!pisadas[posY - 1][i])
-            return false;
-        if (!pisadas[posY + 2][i])
-            return false;
-    }
-
-    // comprobar parte izq y der
-    for (let i = posY; i < posY + 2; i++) {
-        if (!pisadas[i][posX - 1])
-            return false;
-        if (!pisadas[i][posX + 3])
-            return false;
+    for (let i = posY - 1; i < posY + 3; i++) {
+        for (let j = posX - 1; j < posX + 4; j++) {
+            if ((i >= posY && i <= (posY + 1)) && (j >= posX && j <= (posX + 2)))
+                continue;
+            if (!pisadas[i][j]) return false;
+        }
     }
 
     return true;
