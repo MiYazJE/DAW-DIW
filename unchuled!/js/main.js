@@ -16,6 +16,10 @@ let puntos = 0;
 let mover = true;
 let gameOver = false;
 
+let audio = new Audio('media/mario-undeground.mp3');
+audio.autoplay = true;
+audio.onended = () => audio.play();
+
 inicializarMapa();
 crearContenedorVidas();
 play();
@@ -157,9 +161,11 @@ function move(Y, X) {
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
         if (!personaje.pergamino) {
             quitarVida();
+        }
+        else {
+            personaje.pergamino = false;
             applyContrastToMummies();
         }
-        else personaje.pergamino = false;
         eliminarMomia(personaje.y, personaje.x);
     }
 
@@ -325,6 +331,38 @@ function mostrarMomias() {
     }
 }
 
+function iaMomiasHuyen(momia) {
+
+    let posY = 0, posX = 0;    
+    
+    if (momia.y < personaje.y && isValidMomiaPosition((momia.y - 1), momia.x)) {
+        posY = -1;
+    }   
+    else if (momia.y > personaje.y && isValidMomiaPosition((momia.y + 1), momia.x)) {
+        posY = 1;
+    }
+    else if (momia.x < personaje.x && isValidMomiaPosition(momia.y, (momia.x - 1))) {
+        posX = -1;
+    }
+    else if (momia.y == personaje.y && isValidMomiaPosition((momia.y - 1), momia.x)) {
+        posY = -1;
+    }
+    else if (momia.y == personaje.y && isValidMomiaPosition((momia.y + 1), momia.x)) {
+        posY = 1;
+    }
+    else if (isValidMomiaPosition(momia.y, (momia.x + 1))) {
+        posX = 1;
+    }
+    else if (isValidMomiaPosition(momia.y, (momia.x - 1))) {
+        posX = -1;
+    }
+    else {
+        posY = 1;
+    }
+
+    return [posY, posX];
+}
+
 function moverMomias() {
 
     for (let i = 0; i < momias.length; i++) {
@@ -332,17 +370,24 @@ function moverMomias() {
         let posY = 0, posX = 0;
         let momia = momias[i];
 
-        if (momia.y < personaje.y && isValidMomiaPosition((momia.y + 1), momia.x)) {
-            posY = 1;
-        }   
-        else if (momia.y > personaje.y && isValidMomiaPosition((momia.y - 1), momia.x)) {
-            posY = -1;
+        // Si el personaje tiene el pergamino las momias huiran
+        if (personaje.pergamino) {
+            let posiciones = iaMomiasHuyen(momia);
+            posY = posiciones[0]; posX = posiciones[1];
         }
-        else if (momia.x < personaje.x && isValidMomiaPosition(momia.y, (momia.x + 1))) {
-            posX = 1;
-        }
-        else if ( isValidMomiaPosition(momia.y, (momia.x - 1)) ) {
-            posX = -1;
+        else {
+            if (momia.y < personaje.y && isValidMomiaPosition((momia.y + 1), momia.x)) {
+                posY = 1;
+            }   
+            else if (momia.y > personaje.y && isValidMomiaPosition((momia.y - 1), momia.x)) {
+                posY = -1;
+            }
+            else if (momia.x < personaje.x && isValidMomiaPosition(momia.y, (momia.x + 1))) {
+                posX = 1;
+            }
+            else if ( isValidMomiaPosition(momia.y, (momia.x - 1)) ) {
+                posX = -1;
+            }
         }
 
         // Quitamos la momia de la posicion actual
@@ -358,10 +403,13 @@ function moverMomias() {
             // Eliminamos la momia
             momias.splice(i, 1);    
             // Si el personaje no tiene el pergamino perdera una vida
-            if (!personaje.pergamino) 
+            if (!personaje.pergamino) { 
                 quitarVida();
-            else 
+            }
+            else {
                 personaje.pergamino = false;
+                applyContrastToMummies();
+            }
         }
         else {
             // Si la momia no muere a manos del personaje la pintaremos en el mapa con suu nueva posicion
