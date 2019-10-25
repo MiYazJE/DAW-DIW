@@ -1,4 +1,5 @@
 import Character from './Character.js';
+import {insertarContenidoLeyenda, reiniciarCajasLeyenda, actualizarVidas} from './Leyenda.js';
 
 // Un fondo por nivel
 let coloresNiveles = ['#4B67D9', '#A300FF', '#00FFCD', '#00FF0A'];
@@ -27,7 +28,6 @@ function play() {
     cajasDescubiertas = new Array(20).fill(false);
     actualizarPuntuacion();
     rellenarContenidoCajas();
-    console.table(contenidoCajas);
     
     personaje.reset();
     resetPisadas();
@@ -155,10 +155,11 @@ function move(Y, X) {
     // Comprobar que el personaje invada la posicion de una momia
     // si es asi hay que restarle una vida y matar a la momia
     if (mapa[personaje.y][personaje.x].classList.contains('momia')) {
-        if (!personaje.pergamino) 
+        if (!personaje.pergamino) {
             quitarVida();
-        else
-            personaje.pergamino = false;
+            applyContrastToMummies();
+        }
+        else personaje.pergamino = false;
         eliminarMomia(personaje.y, personaje.x);
     }
 
@@ -170,10 +171,17 @@ function move(Y, X) {
 
 }
 
+function seguirJugando() {
+    document.querySelector('.gameOver').style.display = 'none';
+    reiniciar();
+    crearContenedorVidas();
+    limpiarMapa();
+    play();
+}
+
 function siguienteNivel() {
     totalMomias++;
-    notificarNivelSuperado();
-    reiniciarCajas();
+    reiniciarCajasLeyenda();
     limpiarMapa();
     play();
     mover = true;
@@ -181,15 +189,12 @@ function siguienteNivel() {
 
 function quitarVida() {
     if (personaje.vidas == 0) {
-        // Indicar GAME OVER
         gameOver = true;
         document.querySelector('.gameOver').style.display = 'block';
-        
     }
     else {
         personaje.vidas--;
         actualizarVidas();
-        console.log('vidas: ' + personaje.vidas);
     }
 }
 
@@ -202,19 +207,7 @@ function reiniciar() {
     personaje.x = 8;
     nivel = 0;
     puntos = 0;
-    reiniciarCajas();
-}
-
-function seguirJugando() {
-    document.querySelector('.gameOver').style.display = 'none';
-    reiniciar();
-    crearContenedorVidas();
-    limpiarMapa();
-    play();
-}
-
-function notificarNivelSuperado() {
-    alert('nivel superado, suerte en el siguiente');
+    reiniciarCajasLeyenda();
 }
 
 function isValidCharacterPosition(posY, posX) {
@@ -237,17 +230,18 @@ function comprobarCajas() {
                     if (contenidoCajas[posCaja] == 'cofre') {
                         puntos = parseInt(puntos) + 200;
                         actualizarPuntuacion();
-                        insertarContenido('contenedorMonedas', 'leyendaCajaMoneda', 'cantidadMonedas');
+                        insertarContenidoLeyenda('contenedorMonedas', 'leyendaCajaMoneda', 'cantidadMonedas');
                     }
                     else if (contenidoCajas[posCaja] == 'pergamino') {
                         personaje.pergamino = true;
+                        applyContrastToMummies();
                     }
                     else if (contenidoCajas[posCaja] == 'llave') {
-                        insertarContenido('contenedorLlave', 'leyendaCajaLlave', 'cantidadLlaves');
+                        insertarContenidoLeyenda('contenedorLlave', 'leyendaCajaLlave', 'cantidadLlaves');
                         personaje.llave = true;
                     }
                     else if (contenidoCajas[posCaja] == 'urna') {
-                        insertarContenido('contenedorUrna', 'leyendaCajaUrna', 'cantidadUrnas');
+                        insertarContenidoLeyenda('contenedorUrna', 'leyendaCajaUrna', 'cantidadUrnas');
                         personaje.urna = true;
                     }
                 }
@@ -300,6 +294,9 @@ function descubrirCaja(posY, posX, posCaja) {
         // mostrar la momia en una esquina
         mapa[posY][posX].classList = ['celda'];
         mapa[posY][posX].classList.add('momia');
+        if (personaje.pergamino)
+            mapa[posY][posX].classList.add('contraste');
+
         // creacion de la momia
         momias.push(new Character(posY, posX));
     }
@@ -311,6 +308,7 @@ function crearMomias() {
     while (momiasCreadas < totalMomias) {
         let posY = Math.floor(Math.random() * 13);
         let posX = Math.floor(Math.random() * 21);
+        if (posY < 5) continue;
         if (!mapa[posY][posX].classList.contains('caja') &&
             !mapa[posY][posX].classList.contains('personaje') && 
             !mapa[posY][posX].classList.contains('nada')) {
@@ -321,8 +319,10 @@ function crearMomias() {
 }
 
 function mostrarMomias() {
-    for (let momia of momias)
+    for (let momia of momias) {
         mapa[momia.y][momia.x].classList.add('momia');
+        if (personaje.pergamino) mapa[momia.y][momia.x].classList.add('contraste');
+    }
 }
 
 function moverMomias() {
@@ -401,12 +401,6 @@ function crearContenedorVidas() {
     }
 }
 
-function actualizarVidas() {
-    let cajaVidas = document.querySelector('.cajaVidas');
-    if (cajaVidas && cajaVidas.parentNode)
-        cajaVidas.parentNode.removeChild(cajaVidas);
-}
-
 function rellenarContenidoCajas() {
 
     contenidoCajas = new Array(20).fill('vacio');
@@ -464,44 +458,20 @@ document.addEventListener('keydown', (key) => {
     }
 
     switch (key.key) {
-        case 'ArrowUp':     
-        case 'w': move(-1, 0); break;
-        case 'ArrowLeft':  
-        case 'a': move(0, -1); break;
-        case 'ArrowRight': 
-        case 'd': move(0, 1);  break;
-        case 'ArrowDown':  
-        case 's': move(1, 0);
+        case 'ArrowUp':    case 'w': move(-1, 0); break;
+        case 'ArrowLeft':  case 'a': move(0, -1); break;
+        case 'ArrowRight': case 'd': move(0, 1);  break;
+        case 'ArrowDown':  case 's': move(1, 0);
     }
+
     comprobarCajas();
 })
 
-
-function insertarContenido(root, classCaja, classContenido) {
-
-    console.log(root);
-    let parent = document.querySelector('.' + root);
-    let contenido = document.querySelector('.' + classContenido);
-
-    let value = contenido.innerHTML.substring(1);
-    contenido.innerHTML = 'x' + (parseInt(value) + 1);
-
-    let item = document.createElement('div');
-    item.classList.add(classCaja);
-    parent.appendChild(item);
-}
-
-function reiniciarCajas() {
-
-    let roots = document.querySelectorAll('.wrapLeyendaCajas');
-    for (let i in roots) {
-        let eliminarHijos = roots[i];
-        while (eliminarHijos.firstChild)
-            eliminarHijos.removeChild(eliminarHijos.firstChild);
+function applyContrastToMummies() {
+    for (let momia of momias) {
+        if (personaje.pergamino)
+            mapa[momia.y][momia.x].classList.add('contraste');        
+        else 
+            mapa[momia.y][momia.x].classList.remove('contraste');        
     }
-
-    document.querySelector('.cantidadMonedas').innerHTML = 'x0';
-    document.querySelector('.cantidadUrnas').innerHTML   = 'x0';
-    document.querySelector('.cantidadLlaves').innerHTML  = 'x0';
-
 }
