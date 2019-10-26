@@ -13,8 +13,8 @@ let cajasDescubiertas = [];
 let contenidoCajas = [];
 const personaje = new Character(0, 8);
 let puntos = 0;
-let mover = true;
 let gameOver = false;
+let intervaloMover;
 
 let audio = new Audio('media/mario-undeground.mp3');
 audio.autoplay = true;
@@ -42,7 +42,7 @@ function play() {
     mostrarMomias();
 }
 
-setInterval(moverMomias, 600);
+setInterval(moverMomias, 500);
 
 function inicializarMapa() {
 
@@ -98,9 +98,8 @@ function limpiarMapa() {
 
 function move(Y, X) {
 
-    // No entrar a la function mientras el timeout ponga mover a true
-    if (!mover) return;
-    mover = false;
+    // Elimina el continuo movimiento anterior
+    clearInterval(intervaloMover);
 
     // Comprobar si el personaje esta en la casilla de inicio[0][8]
     // con la llave y la urna
@@ -130,9 +129,6 @@ function move(Y, X) {
 
     let posX = personaje.x + X;
     let posY = personaje.y + Y;
-
-    // Relentizar el movimiento del personaje 80 ms
-    setTimeout(() => mover = true, 80);
 
     // Salir si la posicion del personaje esta fuera del mapa o si su direccion esta 
     // ocupada por una caja
@@ -176,6 +172,8 @@ function move(Y, X) {
     mapa[personaje.y][personaje.x].classList.add('personaje');
     mapa[personaje.y][personaje.x].classList.add(classDirection);
 
+    comprobarCajas();
+    intervaloMover = setInterval(() => {move(Y, X)}, 200);
 }
 
 function seguirJugando() {
@@ -193,7 +191,6 @@ function siguienteNivel() {
     refrescarNivel();
     limpiarMapa();
     play();
-    mover = true;
 }
 
 function quitarVida() {
@@ -517,7 +514,6 @@ document.addEventListener('keydown', (key) => {
         case 'M': case 'm': cambiarVolumen(); return;
     }
 
-    comprobarCajas();
 })
 
 function applyContrastToMummies() {
