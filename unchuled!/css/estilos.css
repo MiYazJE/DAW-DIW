@@ -80,13 +80,13 @@ span {
     background-color: black; 
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
 }
 
 /* Aplica un margin a todos los hijos de un mismo padre menos al primer hijo */
 .contenedorInventario:nth-child(1n+2) {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .wrapLeyendaCajas {
@@ -129,8 +129,26 @@ span {
     color: red;
 }
 
-.leyendaUrna {
-    
+.contenedorMute {
+    display: flex;
+    justify-content: center;
+}
+
+.btnMute {
+    background-color: black;
+    border: none;
+    color: red;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+ 
+.btnMute:active {
+    border: none;
+}
+
+.btnMute:hover {
+    color: white;
 }
 
 .nada {
@@ -233,10 +251,6 @@ span {
     transform: translate(-50%, -50%);
     padding: 20px;
     display: none;
-}
-
-.personaje {
-    
 }
 
 .personaje-standard {

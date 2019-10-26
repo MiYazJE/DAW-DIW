@@ -19,6 +19,7 @@ let gameOver = false;
 let audio = new Audio('media/mario-undeground.mp3');
 audio.autoplay = true;
 audio.onended = () => audio.play();
+eventoVolumen();
 
 inicializarMapa();
 crearContenedorVidas();
@@ -509,7 +510,8 @@ document.addEventListener('keydown', (key) => {
         case 'ArrowUp':    case 'w': move(-1, 0); break;
         case 'ArrowLeft':  case 'a': move(0, -1); break;
         case 'ArrowRight': case 'd': move(0, 1);  break;
-        case 'ArrowDown':  case 's': move(1, 0);
+        case 'ArrowDown':  case 's': move(1, 0);  break;
+        case 'M': case 'm': cambiarVolumen(); return;
     }
 
     comprobarCajas();
@@ -521,5 +523,26 @@ function applyContrastToMummies() {
             mapa[momia.y][momia.x].classList.add('contraste');        
         else 
             mapa[momia.y][momia.x].classList.remove('contraste');        
+    }
+}
+
+function eventoVolumen() {
+    let button = document.querySelector('.fas');
+    button.addEventListener('click', () => {
+        cambiarVolumen();
+    })
+}
+
+function cambiarVolumen() {
+    let button = document.querySelector('.fas');
+    if (button.classList.contains('fa-volume-up')) {
+        button.classList.remove('fa-volume-up');
+        button.classList.add('fa-volume-mute');
+        audio.volume = 0;
+    }
+    else {
+        button.classList.remove('fa-volume-mute');
+        button.classList.add('fa-volume-up');
+        audio.volume = 1;
     }
 }
