@@ -3,7 +3,7 @@ import {insertarContenidoLeyenda, reiniciarCajasLeyenda, actualizarVidas} from '
 
 // Un fondo por nivel
 let coloresNiveles = ['#4B67D9', '#A300FF', '#00FFCD', '#00FF0A'];
-let nivel = 0;
+let nivel = 1;
 
 let totalMomias = 1;
 let mapa    = [];
@@ -28,7 +28,7 @@ play();
 function play() {
     
     document.querySelector('html').style.backgroundColor = 
-            coloresNiveles[parseInt(nivel++ % coloresNiveles.length)];
+            coloresNiveles[parseInt(nivel-1 % coloresNiveles.length)];
 
     cajasDescubiertas = new Array(20).fill(false);
     actualizarPuntuacion();
@@ -189,6 +189,8 @@ function seguirJugando() {
 function siguienteNivel() {
     totalMomias++;
     reiniciarCajasLeyenda();
+    nivel++;
+    refrescarNivel();
     limpiarMapa();
     play();
     mover = true;
@@ -212,7 +214,8 @@ function reiniciar() {
     personaje.vidas = 5;
     personaje.y = 0;
     personaje.x = 8;
-    nivel = 0;
+    nivel = 1;
+    refrescarNivel();
     puntos = 0;
     reiniciarCajasLeyenda();
 }
@@ -527,14 +530,15 @@ function applyContrastToMummies() {
 }
 
 function eventoVolumen() {
-    let button = document.querySelector('.fas');
+    let button = document.querySelector('.btnMute'); 
     button.addEventListener('click', () => {
         cambiarVolumen();
     })
 }
 
 function cambiarVolumen() {
-    let button = document.querySelector('.fas');
+    let button = document.querySelector('.btnMute');
+    button = button.firstElementChild;
     if (button.classList.contains('fa-volume-up')) {
         button.classList.remove('fa-volume-up');
         button.classList.add('fa-volume-mute');
@@ -545,4 +549,11 @@ function cambiarVolumen() {
         button.classList.add('fa-volume-up');
         audio.volume = 1;
     }
+}
+
+function refrescarNivel() {
+    let textNivel = document.querySelector('.nivel');
+    console.log(textNivel);
+    textNivel.innerHTML = nivel;
+    console.log(textNivel);
 }
