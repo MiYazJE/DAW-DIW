@@ -1,0 +1,64 @@
+:root {
+    --fondoCajaSonido: rgba(255, 255, 255, 0.1);
+    --sombraCajaSonido: 1px 1px 15px 2px rgba(224,169,29,1);
+    --sombra-skill: 1px 1px 12px #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Fondo con la imagen de Ornn */
+body {
+    /* height: 100%; */
+    background-image: url("/imgs/ornn.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.keys {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.key {
+    width: 80px;
+    margin: 10px;
+    cursor: pointer;
+    text-align: center;
+    border: 4px solid black;
+    border-radius: 5px;
+    background-color: var(--fondoCajaSonido);
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+    transition: all 0.1s;
+}
+
+kbd {
+    font-size: 35px;
+    text-shadow: var(--sombra-skill);
+}
+
+span {
+    margin-top: 5px;
+    color: yellow;
+    text-shadow: var(--sombra-skill);
+    font-size: 20px;
+}
+
+.playing {
+    transform: scale(1.1);
+    box-shadow: var(--sombraCajaSonido);
+}
