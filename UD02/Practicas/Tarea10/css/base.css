@@ -35,6 +35,35 @@ p {
     width: 30px;
     border: 2px solid black;
     border-radius: 5px;
-    transition-property: transform;
+    transition-property: margin-left;
     transition-duration: 1s;   
+}
+
+.ease {
+    transition-timing-function: ease;
+}
+
+.linear {
+    transition-timing-function: linear;
+}
+
+.ease-in {
+    transition-timing-function: ease-in;
+}
+
+.ease-out {
+    transition-timing-function: ease-out;
+}
+
+.ease-in-out {
+    transition-timing-function: ease-in-out;
+}
+
+.mover {
+    margin-left: Calc(100% - 34px);
+}
+
+.bezier {
+    transition-timing-function: cubic-bezier(0, 1.0186, 0.8458, 0.2695);
+    margin-left: Calc(100% - 34px);
 }
