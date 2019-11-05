@@ -8,14 +8,9 @@ const setEventEvolution = (box) => {
     if (state > 2) return;
 
     switch (state) {
-        case 0: 
-            box.classList.add('evoluciona'); 
-            break;
-        case 1:  
-            box.classList.remove('evoluciona'); 
-            break;
-        case 2:
-            box.classList.add('ultimate');
+        case 0: box.classList.add('evoluciona');    break;
+        case 1: box.classList.remove('evoluciona'); break;
+        case 2: box.classList.add('ultimate');
     }
 
     box.setAttribute('state', ++state);
