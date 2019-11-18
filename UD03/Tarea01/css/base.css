@@ -17,7 +17,7 @@ body{
     justify-content:center;
     height:100vh;
     
-    /*background-color:#323232;*/
+    /* background-color:#323232; */
     background-image:url("https://picsum.photos/1600/900");
     font-family: 'OuroborosRegular';
     font-weight: normal;
@@ -28,53 +28,57 @@ body{
 
 
 /*
+* CSS for content
+*/
+
+content {
+    background-color: rgba(0, 0, 0, 0.70);
+    border-radius: 10px;
+    padding: 20px;
+    height: auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr;
+}
+
+/*
 * CSS for items
 */
 
-items{
+items {
 
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
-    
 }
 
-item{
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+item {
+    display: flex;
+    justify-content: center;
 }
 
 /*
 * CSS for body
 */
 
-button{
-    
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+button {
+    padding: 30px 100px;
+    border-radius: 20px;
+    outline: 0;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(90deg, rgba(72,66,179,1) 0%, rgba(84,193,175,1) 49%, rgba(121,20,252,1) 100%, rgba(205,60,138,1) 100%, rgba(10,255,252,1) 100%, rgba(132,132,181,1) 100%, rgba(188,192,232,1) 100%);
+    color: white;
+    font-size: 20px;
+    transition: transform opacity;
+    transition-duration: 1s;
+    opacity: 0.8;
 }
 
 button:hover {
-    
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+    opacity: 1;
 }
 
 button:active {
-    
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+    transform: translateY(20px);
 }
-
 
 /*
 * CSS for steps
@@ -84,12 +88,12 @@ button:active {
 *   GUI.
 */
 
-steps{
-   
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+steps {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 30px;
+
 }
 
 /*
@@ -99,18 +103,14 @@ steps{
 * with a transition.
 */
 steps * {
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+    transition: visibility;
+    transition-duration: 0.8s;
+    transition-timing-function: ease;
 }
 
-.estabaEscondido{
-   
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+/* Show components */
+.estabaEscondido {
+    visibility: visible;
 }
 
 
@@ -118,29 +118,32 @@ steps * {
 /*
 * CSS for ProgressBars
 */
-progress{
-
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+progress {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: red;
 }
 
 
-
-finalmsg{
-
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+/* Give a animation that blink the text infinitely */
+finalmsg {
+    text-align: center;
+    animation-name: neon;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    animation-timing-function: linear;
 }
 
 @keyframes neon {
- 
-    /* 
-     * Fragmentos perdidos 
-     * ^(;,;)^
-     */
+    from {
+        color: #C89F2A;
+        opacity: 0.2;
+    }
+    to {
+        color: #FFBD00;
+        opacity: 1;
+    }
 }
 
