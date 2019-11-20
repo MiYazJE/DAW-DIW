@@ -25,16 +25,16 @@ async function startMigration() {
         let finalmsg  = stepsContainer[i + 2];
 
         steplabel.classList.add('estabaEscondido');
-        // Await to the animation ends, then do to the rest
+        // Await to the animation ends, then do the rest
         await new Promise(resolve => steplabel.addEventListener('transitionend', resolve));
 
         progress.classList.add('estabaEscondido');
 
         // Set to the progress bar increments progressively
-        let value = parseInt(progress.getAttribute('value'));
-        let max = parseInt(progress.getAttribute('max'));
-        for (; value <= max; value++) {
-            progress.style.width = value + '%';
+        await new Promise(resolve => progress.addEventListener('transitionend', resolve));
+
+        for (let value = 0; value <= progress.max; value++) {
+            progress.value = value;
             await sleep(20);
         }
         

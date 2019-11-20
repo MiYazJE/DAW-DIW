@@ -122,12 +122,24 @@ steps * {
 /*
 * CSS for ProgressBars
 */
+
 progress {
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background: var(--fondo-gradiente);
+    height: 30px;
+    width: 100%;
+    padding: 4px;
+    border: 1px solid white;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
 }
+
+progress::-webkit-progress-bar {
+    background: transparent;
+}  
+
+progress::-webkit-progress-value {  
+    border-radius: 12px;
+    background: var(--fondo-gradiente);
+} 
 
 finalmsg {
     visibility: hidden;
