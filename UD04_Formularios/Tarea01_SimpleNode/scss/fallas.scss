@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+$box-shadow-falla: 4px 8px 12px -1px rgba(0,0,0,0.75);;
+
+%cleanMargins {
+    margin: 0;
+    padding: 0;
+}
+
+%estilosInput {
+    border-radius: 5px;
+    outline: 0;
+    border: 1px solid black;
+    padding: 5px 20px 5px 20px;
+    text-align: center;
+}
+
+%display-flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+* {
+    @extend %cleanMargins;
+    font-family: 'Montserrat', sans-serif;;
+}
+
+input[name="inputFalla"] {
+    @extend %estilosInput;
+}
+
+.btnMostrarFallas {
+
+    @extend %estilosInput;
+    cursor: pointer;
+    margin-left: 20px;
+    background-color: lightcoral;
+    transition-property: background-color;
+    transition-duration: 1s;
+
+    &:active {
+        transform: translateY(2px);
+    }
+
+    &:hover {
+        background-color: lightsalmon;
+    }
+
+}
+
+main {
+
+    @extend %display-flex-center;
+    flex-direction: column;
+    margin-top: 50px;
+    width: 100%;
+
+    #contenedorFallas {
+
+        @extend %display-flex-center;
+        margin-top: 50px;
+        width: 100%;
+
+        .falla {
+
+            @extend %display-flex-center;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: $box-shadow-falla;
+            margin: 10px;
+            min-width: 200px;
+
+            img {
+                width: 250px;
+                height: 300px;
+            }
+
+            * {
+                margin: 5px;
+            }
+
+        }
+
+    }
+
+}
+

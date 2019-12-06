@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat&display=swap");
+* {
+  margin: 0;
+  padding: 0; }
+
+input[name="inputFalla"], .btnMostrarFallas {
+  border-radius: 5px;
+  outline: 0;
+  border: 1px solid black;
+  padding: 5px 20px 5px 20px;
+  text-align: center; }
+
+main, main #contenedorFallas, main #contenedorFallas .falla {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; }
+
+* {
+  font-family: 'Montserrat', sans-serif; }
+
+.btnMostrarFallas {
+  cursor: pointer;
+  margin-left: 20px;
+  background-color: lightcoral;
+  transition-property: background-color;
+  transition-duration: 1s; }
+  .btnMostrarFallas:active {
+    transform: translateY(2px); }
+  .btnMostrarFallas:hover {
+    background-color: lightsalmon; }
+
+main {
+  flex-direction: column;
+  margin-top: 50px;
+  width: 100%; }
+  main #contenedorFallas {
+    margin-top: 50px;
+    width: 100%; }
+    main #contenedorFallas .falla {
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 4px 8px 12px -1px rgba(0, 0, 0, 0.75);
+      margin: 10px;
+      min-width: 200px; }
+      main #contenedorFallas .falla img {
+        width: 250px;
+        height: 300px; }
+      main #contenedorFallas .falla * {
+        margin: 5px; }
