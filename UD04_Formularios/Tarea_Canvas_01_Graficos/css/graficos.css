@@ -53,4 +53,7 @@ pre {
 
 canvas {
     margin-top: 20px;
+    position: absolute;
+    left: 25%;
+    top: 30%;
 }
